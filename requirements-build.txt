@@ -1,0 +1,4 @@
+# Tools for building the Windows .exe (see AutismCalm.spec)
+-r requirements.txt
+pyinstaller>=6.16
+pillow>=10
