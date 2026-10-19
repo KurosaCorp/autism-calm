@@ -7,7 +7,7 @@
 
 $ErrorActionPreference = "Stop"
 $root = Join-Path $PSScriptRoot "..\assets\audio"
-$ua = "AutismCalm/0.2 (open-source ambient sound app; asset setup script) curl"
+$ua = "AutismCalm/0.2 (ambient sound app; asset setup script) curl"
 
 function Get-Sound($path, $url) {
     $dest = Join-Path $root $path

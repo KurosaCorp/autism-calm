@@ -231,3 +231,15 @@ scripts/
   Visuals can follow playback through `context.audio.playingChanged`.
 - **Add a tab:** subclass `BaseTab` and append it to `TABS` in
   `calm/ui/main_window.py`.
+
+## License
+
+Copyright © 2026 Kurosa Corp. All rights reserved. The source code is
+public so you can read it, learn from it, report problems and build add-ons,
+but you may not copy, modify or redistribute the app or its code.
+
+**Add-ons are welcome.** You may create and share your own sound packs,
+visuals and other add-ons, and you own what you make, as long as they don't
+include copies of this code. Contributions sent to this repository can be
+used by Kurosa Corp. in the app. The starter-pack sounds keep their own
+licenses ([CREDITS.md](assets/audio/CREDITS.md)). Full terms: [LICENSE](LICENSE).

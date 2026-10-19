@@ -1,0 +1,43 @@
+Autism Calm
+Copyright (c) 2026 Kurosa Corp. All rights reserved.
+
+This license covers the Autism Calm source code and app ("the Software"),
+except the third-party material listed in section 5.
+
+1. Using the app
+   You may download and use the Software free of charge.
+
+2. The source code
+   The source code is published so that people can read it, learn from it,
+   report problems and build add-ons. Except as allowed in section 3, you may
+   not copy, modify, merge, publish, distribute, sublicense or sell the
+   Software or any part of it, and you may not publish modified versions of
+   it. All rights not expressly granted here are reserved by Kurosa Corp.
+
+3. Add-ons
+   You may create and share your own add-ons for the Software, for example
+   sound packs, or visuals and other modules that the Software loads. You own
+   the add-ons you create. An add-on may use and interact with the Software's
+   code (for example by importing, subclassing or calling its classes and
+   functions) but must not include copies of the Software's source code.
+   Add-ons are not part of the Software and are not endorsed by Kurosa Corp.
+   unless it says so.
+
+4. Contributions
+   If you submit a contribution to this repository (for example a pull
+   request, patch or suggested change), you grant Kurosa Corp. a perpetual,
+   worldwide, royalty-free, irrevocable license to use, modify, distribute and
+   relicense it as part of the Software under any terms.
+
+5. Third-party material
+   The sounds in the starter pack are not covered by this license. Each one
+   keeps its own license (public domain or Creative Commons), as listed in
+   assets/audio/CREDITS.md, and may be used under that license.
+
+6. No warranty
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+   KUROSA CORP. BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR ITS USE. The Software is
+   a relaxation aid, not a medical device or treatment.

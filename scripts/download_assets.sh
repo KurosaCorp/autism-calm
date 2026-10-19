@@ -6,7 +6,7 @@
 # This file mirrors PACK in scripts/download_assets.py.
 set -u
 ROOT="$(dirname "$0")/../assets/audio"
-UA="AutismCalm/0.2 (open-source ambient sound app; asset setup script) curl"
+UA="AutismCalm/0.2 (ambient sound app; asset setup script) curl"
 
 fetch() {
   mkdir -p "$ROOT/$(dirname "$1")"

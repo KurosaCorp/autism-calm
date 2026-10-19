@@ -31,7 +31,7 @@ import soundfile as sf
 from synth_sounds import GENERATORS, SR, synthesize
 
 AUDIO_DIR = Path(__file__).resolve().parent.parent / "assets" / "audio"
-USER_AGENT = "AutismCalm/0.2 (open-source ambient sound app; asset setup script) python-urllib"
+USER_AGENT = "AutismCalm/0.2 (ambient sound app; asset setup script) python-urllib"
 PAUSE_SECONDS = 3
 # Longer server back-off requests are not waited out: a stand-in is generated instead.
 MAX_RETRY_WAIT = 60
