@@ -37,6 +37,8 @@ def _default_user_data_dir() -> Path:
 USER_DATA_DIR = Path(os.environ.get("AUTISMCALM_DATA_DIR") or _default_user_data_dir())
 # The user's sound library: what the mixer shows and "Open sounds folder" opens.
 AUDIO_DIR = USER_DATA_DIR / "Sounds"
+# Third-party add-ons (Python files or packages) loaded at startup.
+ADDONS_DIR = USER_DATA_DIR / "Addons"
 LOG_DIR = USER_DATA_DIR / "Logs"
 
 # Windows groups taskbar buttons by this ID; without it the taskbar would show

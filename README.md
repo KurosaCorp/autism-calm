@@ -9,7 +9,9 @@ Built with **Python + PySide6 (Qt)** for the UI and visuals (Qt's built-in
 OpenGL support, no extra graphics library) and **sounddevice + soundfile +
 numpy** for audio.
 
-## Quick start (Windows PowerShell)
+## Quick start (No .exe from release page)
+
+Windows PowerShell
 
 ```powershell
 python -m venv .venv
@@ -26,13 +28,6 @@ pip install -r requirements.txt
 python scripts/download_assets.py
 python main.py
 ```
-
-## App logo
-
-Put the logo at **`assets/logo.jpg`** (next to the `audio` folder). It
-becomes the window and taskbar icon. Non-square images are centred rather than
-stretched. To use another file or format (.png, .ico, .svg), change
-`LOGO_PATH` in `calm/config.py`. Without a logo, the app uses the default icon.
 
 ## Using the mixer
 
@@ -57,7 +52,9 @@ deep purple and gentle yellow (one full cycle takes 90 seconds).
   the distance and fades out before it gets close, and at top speed no light
   changes brightness by more than about 1% per frame.
 
-The animation only runs while the Visuals tab is open.
+The animation only runs while the Visuals tab is open. Add-ons can add more
+visuals, which you choose with the picker at the bottom left (see
+[Add-ons](#add-ons)).
 
 ## Your sounds folder
 
@@ -66,7 +63,7 @@ to the program or in Documents:
 
 | OS | Sounds folder |
 |---|---|
-| Windows | `%LOCALAPPDATA%\AutismCalm\Sounds` (e.g. `C:\Users\you\AppData\Local\AutismCalm\Sounds`) |
+| Windows | `%LOCALAPPDATA%\AutismCalm\Sounds` (e.g. `C:\Users\your_user_name\AppData\Local\AutismCalm\Sounds`) |
 | macOS | `~/Library/Application Support/AutismCalm/Sounds` |
 | Linux | `~/.local/share/AutismCalm/Sounds` |
 
@@ -85,6 +82,55 @@ folder next to it.
 
 Files that can't be read are skipped (the reason is written to the log).
 To remove a sound, delete its file.
+
+## Add-ons
+
+Anyone can make add-ons for Autism Calm without changing its code:
+
+- **Sound packs:** just audio files. Drop them into your sounds folder (see
+  above).
+- **Visuals:** Python files that add new animations to the Visuals tab.
+
+### Installing a visual add-on
+
+1. In the **Visuals** tab, click **Open add-ons folder**
+   (`%LOCALAPPDATA%\AutismCalm\Addons` on Windows, next to `Sounds`).
+2. Copy the add-on into it: a single `.py` file, or a folder that contains
+   `__init__.py`.
+3. Restart the app and choose the visual in the picker at the bottom left.
+
+To turn an add-on off, delete it or put `_` in front of its name
+(`_breathing_circle.py`). If an add-on is broken, the app skips it and keeps
+working: the Visuals tab says how many couldn't load (hover for details), and
+the full error is in the log file.
+
+**Only install add-ons from people you trust.** An add-on is a Python program
+and can do anything the app can do on your computer.
+
+### Making a visual add-on
+
+Start from [examples/addons/breathing_circle.py](examples/addons/breathing_circle.py),
+a slow breathing guide written as an add-on.
+
+- Subclass `BaseVisual` from `calm.visuals.base`, give it a `name`, and
+  implement `tick(dt)`: advance your animation by `dt` seconds and call
+  `self.update()`. Draw in `paintEvent` with QPainter.
+- The app runs the frame timer for you, and the **Speed** slider and **Pause**
+  button already work. `dt` is speed-scaled and eased, and `self.elapsed` is
+  the total animation time.
+- List your classes in a module-level `VISUALS = [...]`. Without it, every
+  `BaseVisual` subclass in your file is used.
+- For many soft lights, use `create_canvas()` from `calm.visuals.render` (the
+  GPU renderer behind the bokeh tunnel, with a CPU fallback).
+  `self.context.audio` lets a visual react to what's playing (for example its
+  `playingChanged` signal).
+- Add-ons can use PySide6 (QtCore, QtGui, QtWidgets, QtOpenGL), numpy, the
+  app's `calm` modules and Python's standard library. The Windows .exe only
+  contains what the app itself needs, plus common standard modules such as
+  `math`, `random`, `colorsys`, `json` and `dataclasses`. If your add-on needs
+  anything else, include it inside your add-on's folder.
+- Please keep visuals calm: dark background, soft edges, slow movement, and no
+  flashing or sudden changes.
 
 ## The starter pack
 
@@ -110,34 +156,6 @@ Commons and generates 1 sound locally:
   When running from source, the app copies it to your sounds folder on first
   start, like the .exe does. To pick up a changed starter pack, empty your
   sounds folder.
-
-## Building the Windows app (.exe)
-
-```powershell
-.venv\Scripts\python.exe -m pip install -r requirements-build.txt
-.venv\Scripts\python.exe scripts\download_assets.py
-.venv\Scripts\python.exe -m PyInstaller --noconfirm --clean AutismCalm.spec
-```
-
-This produces **`dist\AutismCalm.exe`**, a single file you can share. The
-recipe in [AutismCalm.spec](AutismCalm.spec):
-
-- bundles the starter pack and `assets/logo.jpg` into the .exe (unpacked to
-  `sys._MEIPASS` while it runs);
-- builds without a console window (same as `--noconsole`);
-- converts `logo.jpg` into a multi-size `.ico` for the .exe icon, and adds
-  version info ("Autism Calm 1.0.0" in File Properties and Task Manager);
-- names the Qt OpenGL modules explicitly, because the GPU renderer is loaded
-  lazily. The app uses no Qt 3D modules, so none are bundled.
-
-Without a console, errors go to `%LOCALAPPDATA%\AutismCalm\Logs\autism-calm.log`.
-To check a build automatically, set `AUTISMCALM_SMOKE_TEST` to a file path.
-The app then plays every sound inaudibly, opens the Visuals tab, writes a JSON
-report to that path and quits.
-
-A one-file .exe unpacks itself to a temporary folder each time it starts, so
-it takes a few seconds to open. Some antivirus tools are wary of unsigned
-PyInstaller apps; code-signing the .exe avoids that.
 
 ## Sensory-friendly audio processing
 
@@ -187,6 +205,7 @@ calm/
   theme.py                     calm dark palette + stylesheet
   icon.py                      window/taskbar icon from assets/logo.jpg
   user_data.py                 first-run sound library copy, log file
+  addons.py                    loads add-ons from the user's Addons folder
   app.py                       QApplication bootstrap
   audio/                       no UI code
     library.py                 scans the sounds folder -> list of Sound
@@ -198,7 +217,7 @@ calm/
     main_window.py             TABS list -> QTabWidget, Esc = stop all
     tabs/base.py               BaseTab + AppContext (shared services)
     tabs/audio_tab.py          Tab 1: grouped, scrollable mixer
-    tabs/visuals_tab.py        Tab 2: visual + Speed slider + Pause button
+    tabs/visuals_tab.py        Tab 2: visual picker (built-in + add-ons), Speed, Pause
     widgets/sound_card.py      Play/Pause + volume card
     widgets/flow_grid.py       grid that reflows columns with window width
   visuals/
@@ -212,6 +231,7 @@ calm/
 assets/logo.jpg                app logo (you provide it)
 assets/audio/                  starter pack bundled with the app (sub-folders = categories)
 AutismCalm.spec                PyInstaller recipe for dist\AutismCalm.exe
+examples/addons/               example visual add-on (breathing circle)
 scripts/
   download_assets.py           starter pack downloader (source of truth)
   synth_sounds.py              offline generators for every starter sound
@@ -223,12 +243,10 @@ scripts/
 - **Add a sound to the starter pack:** add a line to `PACK` in
   `scripts/download_assets.py`, plus a generator in `scripts/synth_sounds.py`
   as the offline fallback, and credit it in `assets/audio/CREDITS.md`.
-- **Add a visual:** subclass `BaseVisual` in `calm/visuals/`, implement
-  `tick(dt)` and add the class to `VISUALS`. A picker appears automatically
-  once there is more than one. The Speed slider and Pause button work for every
-  visual, because `BaseVisual` scales `dt` for you. For lots of soft lights,
-  reuse `create_canvas()` from `calm/visuals/render` (see `bokeh_tunnel.py`).
-  Visuals can follow playback through `context.audio.playingChanged`.
+- **Add a built-in visual:** write it like an add-on (see "Making a visual
+  add-on"), put it in `calm/visuals/`, and add the class to `VISUALS` in
+  `calm/visuals/__init__.py`. Built-in visuals appear before add-ons in the
+  picker.
 - **Add a tab:** subclass `BaseTab` and append it to `TABS` in
   `calm/ui/main_window.py`.
 

@@ -1,12 +1,14 @@
 """Base class for graphics modules shown in the Visuals tab.
 
-To add a visual:
+To add a visual, write a ``BaseVisual`` subclass that implements ``tick(dt)``
+to advance the animation and repaint (``self.update()`` and a
+``paintEvent``). For heavy drawing, put a canvas from ``calm.visuals.render``
+(GPU sprite renderer with a QPainter fallback) inside the visual; see
+``bokeh_tunnel.py``. Then either:
 
-1. Create a module in ``calm/visuals/`` with a ``BaseVisual`` subclass.
-   Implement ``tick(dt)`` to advance the animation and repaint. For heavy
-   drawing, put a canvas from ``calm.visuals.render`` (GPU sprite renderer
-   with a QPainter fallback) inside the visual; see ``bokeh_tunnel.py``.
-2. Add the class to ``VISUALS`` in ``calm/visuals/__init__.py``.
+* built in: add the class to ``VISUALS`` in ``calm/visuals/__init__.py``, or
+* as an add-on: put the module in the user's Add-ons folder (see
+  ``calm/addons.py``); no change to the app's code is needed.
 
 The base class owns the frame timer and the user's speed / pause settings.
 Every change is eased: speed changes glide, pausing slows the motion to a
@@ -46,6 +48,7 @@ class BaseVisual(QWidget):
         self._active = False
         self.speed = 1.0     # user's speed multiplier
         self.paused = False
+        self.elapsed = 0.0   # animation time so far (sum of the dt passed to tick)
         self._scale = 0.0    # eased playback rate actually applied
 
     # --- called by the Visuals tab ---------------------------------------------
@@ -87,4 +90,6 @@ class BaseVisual(QWidget):
         if self.paused and self._scale < self.rest_threshold:
             self._scale = 0.0
             self._timer.stop()  # fully still: no more frames until resumed
-        self.tick(real_dt * self._scale)
+        dt = real_dt * self._scale
+        self.elapsed += dt
+        self.tick(dt)

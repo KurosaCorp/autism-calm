@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 from PIL import Image
+from PyInstaller.utils.hooks import collect_submodules
 from PyInstaller.utils.win32.versioninfo import (
     FixedFileInfo,
     StringFileInfo,
@@ -91,6 +92,14 @@ hiddenimports = [
     "calm.visuals.render.gl_canvas",
     "PySide6.QtOpenGL",
     "PySide6.QtOpenGLWidgets",
+]
+# Add-ons are loaded from the user's Add-ons folder at runtime, so PyInstaller
+# can't see what they import. Bundle every app module (add-ons build on them)
+# and the small standard-library modules add-ons commonly use.
+hiddenimports += collect_submodules("calm")
+hiddenimports += [
+    "bisect", "colorsys", "dataclasses", "datetime", "decimal", "enum", "fractions",
+    "functools", "heapq", "itertools", "json", "math", "random", "statistics", "time",
 ]
 
 a = Analysis(

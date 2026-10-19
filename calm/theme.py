@@ -108,6 +108,27 @@ QWidget#VisualsBar QPushButton:checked {{
     color: {text};
     border-color: {accent_dim};
 }}
+QWidget#VisualsBar QPushButton#LinkButton {{
+    background: transparent;
+    border: none;
+}}
+QComboBox {{
+    background-color: #101317;
+    color: {text};
+    border: 1px solid #20262d;
+    border-radius: 8px;
+    padding: 6px 12px;
+    min-width: 140px;
+}}
+QComboBox:focus {{
+    border-color: {accent_dim};
+}}
+QComboBox QAbstractItemView {{
+    background-color: {surface};
+    color: {text};
+    selection-background-color: {accent_dim};
+    border: 1px solid {border};
+}}
 QLabel#Placeholder {{
     color: {text_muted};
     font-size: 16pt;

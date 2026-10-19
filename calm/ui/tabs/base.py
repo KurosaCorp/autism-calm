@@ -1,9 +1,10 @@
 """Base class every tab derives from."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from PySide6.QtWidgets import QWidget
 
+from calm.addons import Addon
 from calm.ui.audio_controller import AudioController
 
 
@@ -16,6 +17,8 @@ class AppContext:
     """
 
     audio: AudioController
+    #: Add-ons found in the user's Add-ons folder (loaded or failed).
+    addons: list[Addon] = field(default_factory=list)
 
 
 class BaseTab(QWidget):
