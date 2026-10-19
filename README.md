@@ -1,5 +1,7 @@
 # Autism Calm
 
+![The Audio tab](docs/images/audio-tab.png)
+
 A minimalist desktop app that helps autistic people and people with ADHD
 calm down and focus. Mix ambient sounds (rain, brown noise, a cat purring, a
 ticking clock and more) into your own soundscape, and watch slow, glowing
@@ -38,6 +40,8 @@ python main.py
 - Play, pause and volume changes fade gently instead of jumping.
 
 ## The Visuals tab
+
+![The Visuals tab](docs/images/visuals-tab.png)
 
 Soft, out-of-focus lights float out of a dim central glow and drift towards
 you in a slow 3D tunnel, with faint light rays turning behind them, on a
